@@ -15,47 +15,41 @@ import Foundation
 
 class Solution {
 	func addBinary(_ A: inout String, _ B: inout String) -> String {
-        var sum = 0
-        var carry = 0
-        var a0 = A
-        var b0 = B
+		var num1Arr = [Character]()
+        	var num2Arr = [Character]()
+        	var result = ""
         
-        //Make given inputs aligned
-        if a0.count < b0.count {
-            var num1 = b0.count - a0.count
-            while(num1 > 0) {
-                a0.insert("0",at:a0.startIndex)
-                num1 -= 1
-            }
-        }
-        else if b0.count < a0.count {
-            var num1 = a0.count - b0.count
-            while(num1 > 0) {
-                b0.insert("0",at:b0.startIndex)
-                num1 -= 1
-            }
-        }
-    
-        var a1 = Array(a0.characters)
-        var b1 = Array(b0.characters)
-        var result = String()
-        var cnt = 0
-        var num1 = 0, num2 = 0
-        let len = a1.count
-    
-    
-        for i in stride(from: len-1, through:0, by: -1) {
-            num1 = Int(String(a1[i]))!
-            num2 = Int(String(b1[i]))!
-            sum = (num1^num2)^carry
-            carry = (num1&num2) | (num1^num2)&carry
-            result += String(sum)
-        }
-    
-        if(carry>0) {
-            result += String(carry)
-        }
+        	if(A.isEmpty) {
+            		return B
+        	}
+        	if(B.isEmpty) {
+            		return B
+        	}
         
-        return String(result.reversed())
+        	A.map { num1Arr.append($0)}
+        	B.map { num2Arr.append($0)}
+ 
+        	var i = num1Arr.count-1, j = num2Arr.count-1
+        	var sum = 0, carry = 0
+        
+        	while(i>=0 || j>=0 || carry>0) {
+            	   sum = carry
+            	   if(i>=0) {
+                     sum += Int(String(num1Arr[i]))!
+                     i = i-1
+                   }
+            
+            	   if(j>=0) {
+               	     sum += Int(String(num2Arr[j]))!
+                     j = j-1
+            	   }
+            
+            	   carry = sum/2
+                   sum = sum%2
+                  result = String(sum) + result
+            
+                }
+             return result
 	}
+
 }
