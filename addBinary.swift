@@ -23,7 +23,7 @@ class Solution {
             		return B
         	}
         	if(B.isEmpty) {
-            		return B
+            		return A
         	}
         
         	A.map { num1Arr.append($0)}
